@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from './contexts/auth.contexts.tsx';
+import AppRoutes from './routes/app.routes.tsx';
+import { ProtectedRoute } from './routes/protected.routes.tsx';
+import { Toaster } from 'react-hot-toast';
+import Navbar from './components/navbar/navbar.components.tsx';
+import { GstProvider } from './contexts/gst.contexts';
+import { SidebarProvider } from './contexts/sidebar.context';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Component to conditionally render Navbar
+const ConditionalNavbar = () => {
+  const location = useLocation();
 
+  
+  // If the current route is either login or signup, return null (no Navbar)
+  if (excludeNavbarPaths.includes(location.pathname)) {
+    return null;
+  }
+  
+  // Otherwise, render the Navbar
+  return <Navbar />;
+};
+
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <GstProvider>
+      <AuthProvider>
+        <SidebarProvider>
+          <ErrorBoundary>
+            <Router>
+              <Suspense fallback={''}>
+                <Toaster position="top-right" />
+                
+                {/* Conditionally render Navbar */}
+                <ConditionalNavbar />
+                
+                <main className="main-content">
+                  <Routes>
+                    {AppRoutes}
+                    <Route
+                      path="/"
+                      element={<ProtectedRoute children={<Dashboard />} />}
+                    />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+              </Suspense>
+            </Router>
+          </ErrorBoundary>
+        </SidebarProvider>
+      </AuthProvider>
+    </GstProvider>
+  );
+};
 
-export default App
+export default App;
