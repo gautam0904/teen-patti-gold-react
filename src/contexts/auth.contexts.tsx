@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { AuthProviderProps } from '../interfaces/common.interface';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -18,7 +17,7 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   useEffect(() => {

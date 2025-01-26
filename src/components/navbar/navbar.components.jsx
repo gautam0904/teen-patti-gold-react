@@ -32,17 +32,12 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-}
+import MenuIcon from '@mui/icons-material/Menu';
+
 
 const drawerWidth = 240;
 
-const Navbar: React.FC<Props> = (props) => {
+const Navbar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -58,7 +53,7 @@ const Navbar: React.FC<Props> = (props) => {
 
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-  const gstMenuItems = [
+  const menuItems = [
     { key: 'facebook', text: 'Home', icon: HomeIcon, path: '/dashboard'},
     { key: 'x', text: 'Stocks', icon: AutoStoriesIcon, path: '/stocks' },
     { key: 'instagram', text: 'Add Sale', icon: PointOfSaleIcon, path: '/sales/new' },
@@ -69,78 +64,14 @@ const Navbar: React.FC<Props> = (props) => {
 
   const navigate = useNavigate();
 
-  const handleMenuClick = (key: string, path: string) => {
+  const handleMenuClick = (key, path) => {
     navigate(path);
   };
 
-  const handleProductClick = () => {
-    navigate('/products');
-  };
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      // Create FormData to handle multiple files
-      const formData = new FormData();
-      Array.from(files).forEach((file, index) => {
-        formData.append(`file${index}`, file);
-      });
-
-      // TODO: Add your upload API call here
-      console.log('Uploading files:', formData);
-    }
-  };
-
-  if (!isAuthenticated) {
-    return null; // Don't render navbar for non-authenticated users
-  }
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        SP
-      </Typography>
-      <Divider />
-      <Box sx={{ display: 'block', alignItems: 'center', flexGrow: 1 }}>
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          style={{ display: 'none' }}
-          id="upload-files"
-          onChange={handleFileUpload}
-        />
-        <label htmlFor="upload-files">
-          <Button
-            component="span"
-            sx={{ color: 'inherit', ml: 2 }}
-          >
-            <UploadIcon sx={{ mr: 1 }} />
-            Upload
-          </Button>
-        </label>
-
-
-        <Button
-          sx={{
-            bgcolor: '#7b4eff',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            px: 2,
-            borderRadius: '4px',
-            width: '100%'
-          }}
-          onClick={() => handleProductClick()}
-        >
-          <ProductionQuantityLimitsIcon sx={{ mr: 1 }} />
-          Products
-        </Button>
-      </Box>
-      <Divider />
-
       <List>
-        {nonGstMenuItems.map((item, index) => (
+        {menuItems.map((item, index) => (
           <ListItem key={item.key} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
               <Button
@@ -163,30 +94,6 @@ const Navbar: React.FC<Props> = (props) => {
         ))}
       </List>
       <Divider />
-
-      <List sx={{ display: { xs: 'none', md: 'none', sm: 'block' }, alignItems: 'center', flexGrow: 1 }}>
-        {gstMenuItems.map((item, index) => (
-          <ListItem key={item.key} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <Button
-                sx={{
-                  bgcolor: '#7b4eff',
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  px: 2,
-                  borderRadius: '4px',
-                  width: '100%'
-                }}
-                onClick={() => handleMenuClick(item.key, item.path)}
-              >
-                <item.icon sx={{ mr: 1 }} />
-                {item.text}
-              </Button>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
     </Box>
   );
 
@@ -210,7 +117,7 @@ const Navbar: React.FC<Props> = (props) => {
             </Toolbar>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', gap: 1 }}>
-              {gstMenuItems.map((item, index) => (
+              {menuItems.map((item, index) => (
                 <React.Fragment key={item.key}>
                   <Button
                     sx={{ bgcolor: '#7b4eff', color: 'white', display: 'flex', alignItems: 'center', px: 2 }}
@@ -219,7 +126,7 @@ const Navbar: React.FC<Props> = (props) => {
                     <item.icon sx={{ mr: 1 }} />
                     {item.text}
                   </Button>
-                  {index < gstMenuItems.length - 1 && (
+                  {index < menuItems.length - 1 && (
                     <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.3)' }} />
                   )}
                 </React.Fragment>

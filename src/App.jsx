@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './contexts/auth.contexts.tsx';
-import AppRoutes from './routes/app.routes.tsx';
-import { ProtectedRoute } from './routes/protected.routes.tsx';
+// import { AuthProvider } from './contexts/auth.contexts.jsx';
+import AppRoutes from './routes/app.routes.jsx';
+import { ProtectedRoute } from './routes/protected.routes.jsx';
 import { Toaster } from 'react-hot-toast';
-import Navbar from './components/navbar/navbar.components.tsx';
+import Navbar from './components/navbar/navbar.components.jsx';
 import { GstProvider } from './contexts/gst.contexts';
 import { SidebarProvider } from './contexts/sidebar.context';
 import './App.css';
@@ -13,20 +13,17 @@ import './App.css';
 const ConditionalNavbar = () => {
   const location = useLocation();
 
-  
-  // If the current route is either login or signup, return null (no Navbar)
   if (excludeNavbarPaths.includes(location.pathname)) {
     return null;
   }
   
-  // Otherwise, render the Navbar
   return <Navbar />;
 };
 
 const App = () => {
   return (
     <GstProvider>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <SidebarProvider>
           <ErrorBoundary>
             <Router>
@@ -50,7 +47,7 @@ const App = () => {
             </Router>
           </ErrorBoundary>
         </SidebarProvider>
-      </AuthProvider>
+      {/* </AuthProvider> */}
     </GstProvider>
   );
 };
