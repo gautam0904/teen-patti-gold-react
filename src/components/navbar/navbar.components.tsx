@@ -31,7 +31,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import TelegramIcon from '@mui/icons-material/Telegram';
-
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -48,7 +48,6 @@ const Navbar: React.FC<Props> = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const { isOpen, setIsOpen } = useSidebar();
-  const { isAuthenticated } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -63,9 +62,9 @@ const Navbar: React.FC<Props> = (props) => {
     { key: 'facebook', text: 'Home', icon: HomeIcon, path: '/dashboard'},
     { key: 'x', text: 'Stocks', icon: AutoStoriesIcon, path: '/stocks' },
     { key: 'instagram', text: 'Add Sale', icon: PointOfSaleIcon, path: '/sales/new' },
-    { key: 'whatsapp', text: 'Add Purchase', icon: DashboardCustomizeIcon, path: '/purchasesGST/new' },
-    { key: 'teligram', text: 'Add New Customer', icon: EmojiSymbolsIcon, path: '/customersGST/new' },
-    { key: 'mopde', text: 'Challan', icon: StoreIcon, path: '/challan' }
+    { key: 'whatsapp', text: 'Add Purchase', icon: WhatsAppIcon, path: '/purchasesGST/new' },
+    { key: 'teligram', text: 'Add New Customer', icon: TelegramIcon, path: '/customersGST/new' },
+    { key: 'mode', text: 'Challan', icon: DarkModeIcon, path: '/challan' }
   ];
 
   const navigate = useNavigate();
