@@ -40,8 +40,6 @@ const drawerWidth = 240;
 const Navbar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const { isOpen, setIsOpen } = useSidebar();
 
   const handleDrawerToggle = () => {
